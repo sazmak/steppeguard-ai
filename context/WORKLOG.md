@@ -42,3 +42,32 @@ Every major step, decision, tool used, audit result, and verification check is l
   2. Built comprehensive `pytest` suite (`tests/test_ml.py`, `tests/test_search.py`, `tests/test_mdp.py`, `tests/test_integration.py`).
   3. Ran Claude Sonnet Stage 2 Audit (`context/AUDIT_2_BACKEND.md`): 0 P0 bugs; fixed all 3 P1 items (per-step exposure normalization + counterfactual coupling test + 3 distinct preset actions, GNB Math Inspector + separate validation $\tau_{\text{gnb}}$, Brier baseline & honest ML framing) plus P2 cleanups (active L2 $\lambda=1.0$, probability-weighted rewards, Confusion Matrix contrast fix).
 - **Verification:** `19/19` tests PASSED in `1.55s`; 30-seed benchmarks & all 3 PNG figures generated and visually verified. Ready for **Pre-Visual Checkpoint**.
+
+## Step 4 — 100% Offline 3D Web App, Browser Visual QA & Claude Audit #3 (2026-11-25 00:49 – 00:58)
+- **Tools / Models Used:** Antigravity (Gemini), local Three.js r147 (`static/vendor/three.min.js`), live Browser Visual QA subagent, Claude Code CLI (`--model sonnet`) Stage 3 Audit.
+- **Actions Performed:**
+  1. Bundled Three.js r147 locally (zero CDN links, zero external fonts, inline SVG favicon — 100% offline!).
+  2. Built `static/index.html`, `static/styles.css`, `static/app.js`: 3D steppe terrain with wildfire flame cones, rising embers, wind streaks, glowing A*/BFS/UCS paths, animated 3D rescue drone, click-to-inspect Math Inspector, live Watchtower Bayes Alert, Human-in-the-Loop approval gate, and 2D Canvas Fallback.
+  3. Ran live Browser QA across all 3 tabs, presets, Bayes update, and 2D fallback (0 JS console errors, 0 failed HTTP requests) and saved hero screenshot to `results/fig4_3d_live_demo.png`.
+  4. Ran Claude Sonnet Stage 3 Audit (`context/AUDIT_3_FRONTEND.md`) and fixed all P0/P1 findings (`AbortController` + 80ms debounce, rollback + error banner, animation timer cancel, active preset sync, HITL session persistence, badge `nowrap`, `e^(-z)` formatting, 2D DPR & S/G markers, WebGL pause when hidden).
+- **Verification:** `19/19` tests PASSED, live browser QA verified, commit `6bd4189`.
+
+## Step 5 — Deliverables Generation: README, Report, Declarations, 7-Slide Deck & Defense Guide (2026-11-25 00:58 – 01:04)
+- **Tools / Models Used:** Antigravity (Gemini), `python-docx`, `python-pptx`, `scripts/build_docs.py`.
+- **Actions Performed:**
+  1. Authored `README.md`, `docs/TECHNICAL_REPORT.md`, `docs/AI_USAGE_DECLARATION.md` (exact Syllabus Appendix table), `docs/TEAM_CONTRIBUTION_STATEMENT.md` (Solo 100%, Oral Sanzhar), and bilingual `context/DEFENSE_GUIDE.md` (2–3 min video script + 2-min algorithm pitch + 12 Q&A pairs).
+  2. Generated formatted Word & PowerPoint deliverables via `scripts/build_docs.py`:
+     - `docs/SteppeGuard_Technical_Report.docx` (with Figures 1–4 embedded)
+     - `docs/AI_Usage_Declaration.docx`
+     - `docs/Team_Contribution_Statement.docx`
+     - `docs/SteppeGuard_Presentation.pptx` (strictly 7 slides, 16:9 dark tactical theme)
+- **Next Step:** Final 100-Point Rubric Audit #4 with Claude Sonnet, final test & Git freeze.
+
+## Step 6 — Stage 4 Final Rubric Audit, Synchronization & Git Freeze (2026-11-25 01:04 – 01:07)
+- **Tools / Models Used:** Claude Code CLI (`--model sonnet`) Final Audit #4, Antigravity (fixes & rebuild), `pytest`, `git`.
+- **Actions Performed:**
+  1. Ran Stage 4 Final Rubric Audit (`context/AUDIT_4_FINAL_RUBRIC.md`).
+  2. Synchronized all §4.1–§4.2 numbers in `docs/TECHNICAL_REPORT.md` verbatim against `results/benchmark_summary.json` and rebuilt all `.docx` & `.pptx` deliverables.
+  3. Made `AI_USAGE_DECLARATION.md/.docx` 100% literal regarding visual QA vs programmatic slide geometry checks, distinguished single-run vs 30-seed stats cleanly, and unified preset naming.
+  4. Verified `19/19` tests PASSED and confirmed via `git ls-files` that zero university lecture PDFs/PPTXs/DOCXs or `.venv` files are tracked.
+  5. Tagged final release `v1.0-submission`.
