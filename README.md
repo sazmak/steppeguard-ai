@@ -37,8 +37,8 @@ Steppe Telemetry (5 features)
 python -m venv .venv
 .venv\Scripts\activate          # Windows PowerShell: .\.venv\Scripts\Activate.ps1
 
-# 2. Install dependencies
-pip install -r requirements.txt
+# 2. Install runtime dependencies (or requirements-dev.txt for tests/benchmarks/docs)
+pip install -r requirements-dev.txt
 
 # 3. Run full automated test suite (19 unit, property & API tests)
 pytest -v
