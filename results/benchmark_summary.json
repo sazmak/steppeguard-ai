@@ -1,0 +1,397 @@
+{
+  "n_seeds": 30,
+  "ml": {
+    "val_tau": {
+      "mean": 0.3525,
+      "std": 0.051
+    },
+    "logistic_regression_tuned": {
+      "accuracy": {
+        "mean": 0.8701,
+        "std": 0.022
+      },
+      "precision": {
+        "mean": 0.7554,
+        "std": 0.0483
+      },
+      "recall": {
+        "mean": 0.8678,
+        "std": 0.0482
+      },
+      "f1": {
+        "mean": 0.8061,
+        "std": 0.0313
+      },
+      "brier_score": {
+        "mean": 0.0851,
+        "std": 0.0098
+      }
+    },
+    "logistic_regression_tau_050": {
+      "accuracy": {
+        "mean": 0.8851,
+        "std": 0.0158
+      },
+      "precision": {
+        "mean": 0.8384,
+        "std": 0.0318
+      },
+      "recall": {
+        "mean": 0.7829,
+        "std": 0.0462
+      },
+      "f1": {
+        "mean": 0.8087,
+        "std": 0.0277
+      },
+      "brier_score": {
+        "mean": 0.0851,
+        "std": 0.0098
+      }
+    },
+    "gaussian_nb_tuned": {
+      "accuracy": {
+        "mean": 0.8628,
+        "std": 0.0249
+      },
+      "precision": {
+        "mean": 0.739,
+        "std": 0.0498
+      },
+      "recall": {
+        "mean": 0.8733,
+        "std": 0.0484
+      },
+      "f1": {
+        "mean": 0.7988,
+        "std": 0.0331
+      },
+      "brier_score": {
+        "mean": 0.0878,
+        "std": 0.0094
+      }
+    },
+    "reference_seed_42_confusion_matrix": {
+      "tp": 184,
+      "fp": 85,
+      "fn": 11,
+      "tn": 320
+    },
+    "reference_seed_42_reliability": [
+      {
+        "bin": "0.0-0.2",
+        "count": 321,
+        "mean_pred": 0.0484,
+        "empirical_rate": 0.028
+      },
+      {
+        "bin": "0.2-0.4",
+        "count": 69,
+        "mean_pred": 0.2855,
+        "empirical_rate": 0.2319
+      },
+      {
+        "bin": "0.4-0.6",
+        "count": 60,
+        "mean_pred": 0.5088,
+        "empirical_rate": 0.6333
+      },
+      {
+        "bin": "0.6-0.8",
+        "count": 61,
+        "mean_pred": 0.6955,
+        "empirical_rate": 0.7705
+      },
+      {
+        "bin": "0.8-1.0",
+        "count": 89,
+        "mean_pred": 0.9184,
+        "empirical_rate": 0.9551
+      }
+    ],
+    "reference_feature_weights": {
+      "temperature_c": 0.8834,
+      "humidity_pct": -1.24,
+      "wind_kmh": 0.999,
+      "dryness_index": 1.2602,
+      "thermal_anomaly": 1.5198
+    }
+  },
+  "search": {
+    "abai_high_wind": {
+      "astar": {
+        "expanded": {
+          "mean": 41.4667,
+          "std": 4.9601
+        },
+        "cost": {
+          "mean": 17.9621,
+          "std": 0.5164
+        },
+        "exposure": {
+          "mean": 0.1211,
+          "std": 0.0575
+        },
+        "steps": {
+          "mean": 17.0,
+          "std": 0.0
+        }
+      },
+      "ucs": {
+        "expanded": {
+          "mean": 80.8,
+          "std": 2.4969
+        },
+        "cost": {
+          "mean": 17.9621,
+          "std": 0.5164
+        },
+        "exposure": {
+          "mean": 0.1211,
+          "std": 0.0575
+        },
+        "steps": {
+          "mean": 17.0,
+          "std": 0.0
+        }
+      },
+      "bfs": {
+        "expanded": {
+          "mean": 71.0,
+          "std": 0.0
+        },
+        "cost": {
+          "mean": 36.5114,
+          "std": 0.6874
+        },
+        "exposure": {
+          "mean": 7.2004,
+          "std": 0.169
+        },
+        "steps": {
+          "mean": 9.0,
+          "std": 0.0
+        }
+      }
+    },
+    "kostanay_dry_steppe": {
+      "astar": {
+        "expanded": {
+          "mean": 50.9,
+          "std": 3.1878
+        },
+        "cost": {
+          "mean": 17.9279,
+          "std": 0.6238
+        },
+        "exposure": {
+          "mean": 0.0384,
+          "std": 0.0152
+        },
+        "steps": {
+          "mean": 17.0,
+          "std": 0.0
+        }
+      },
+      "ucs": {
+        "expanded": {
+          "mean": 88.4,
+          "std": 2.7867
+        },
+        "cost": {
+          "mean": 17.9279,
+          "std": 0.6238
+        },
+        "exposure": {
+          "mean": 0.0384,
+          "std": 0.0152
+        },
+        "steps": {
+          "mean": 17.0,
+          "std": 0.0
+        }
+      },
+      "bfs": {
+        "expanded": {
+          "mean": 71.0,
+          "std": 0.0
+        },
+        "cost": {
+          "mean": 27.6969,
+          "std": 0.4028
+        },
+        "exposure": {
+          "mean": 4.912,
+          "std": 0.0958
+        },
+        "steps": {
+          "mean": 9.0,
+          "std": 0.0
+        }
+      }
+    },
+    "akmola_sensor_noise": {
+      "astar": {
+        "expanded": {
+          "mean": 10.0,
+          "std": 0.0
+        },
+        "cost": {
+          "mean": 10.2393,
+          "std": 0.2523
+        },
+        "exposure": {
+          "mean": 0.3541,
+          "std": 0.0721
+        },
+        "steps": {
+          "mean": 9.0,
+          "std": 0.0
+        }
+      },
+      "ucs": {
+        "expanded": {
+          "mean": 74.0333,
+          "std": 2.6585
+        },
+        "cost": {
+          "mean": 10.2393,
+          "std": 0.2523
+        },
+        "exposure": {
+          "mean": 0.3541,
+          "std": 0.0721
+        },
+        "steps": {
+          "mean": 9.0,
+          "std": 0.0
+        }
+      },
+      "bfs": {
+        "expanded": {
+          "mean": 72.0,
+          "std": 0.0
+        },
+        "cost": {
+          "mean": 10.2393,
+          "std": 0.2523
+        },
+        "exposure": {
+          "mean": 0.3541,
+          "std": 0.0721
+        },
+        "steps": {
+          "mean": 9.0,
+          "std": 0.0
+        }
+      }
+    }
+  },
+  "mdp": {
+    "scenario": "kostanay_dry_steppe (seed=42)",
+    "gamma": 0.9,
+    "iterations": 17,
+    "converged": true,
+    "deltas": [
+      55.989389,
+      27.944177,
+      11.594593,
+      3.85672,
+      1.18634,
+      0.352741,
+      0.10322,
+      0.02997,
+      0.008668,
+      0.002502,
+      0.000722,
+      0.000208,
+      6e-05,
+      1.7e-05,
+      5e-06,
+      1e-06,
+      0.0
+    ],
+    "gamma_sensitivity": [
+      {
+        "gamma": 0.5,
+        "iterations": 12,
+        "policies": {
+          "Low / HighRes": "Safe Detour",
+          "Low / LowRes": "Safe Detour",
+          "Med / HighRes": "Aerial Retardant",
+          "Med / LowRes": "Safe Detour",
+          "High / HighRes": "Aerial Retardant",
+          "High / LowRes": "Evacuate / Hold"
+        },
+        "values": {
+          "Low / HighRes": 66.66,
+          "Low / LowRes": 66.66,
+          "Med / HighRes": 47.97,
+          "Med / LowRes": 43.93,
+          "High / HighRes": 21.64,
+          "High / LowRes": -38.94
+        }
+      },
+      {
+        "gamma": 0.8,
+        "iterations": 15,
+        "policies": {
+          "Low / HighRes": "Safe Detour",
+          "Low / LowRes": "Safe Detour",
+          "Med / HighRes": "Safe Detour",
+          "Med / LowRes": "Safe Detour",
+          "High / HighRes": "Aerial Retardant",
+          "High / LowRes": "Evacuate / Hold"
+        },
+        "values": {
+          "Low / HighRes": 75.26,
+          "Low / LowRes": 75.26,
+          "Med / HighRes": 62.38,
+          "Med / LowRes": 62.38,
+          "High / HighRes": 29.46,
+          "High / LowRes": -38.94
+        }
+      },
+      {
+        "gamma": 0.9,
+        "iterations": 17,
+        "policies": {
+          "Low / HighRes": "Safe Detour",
+          "Low / LowRes": "Safe Detour",
+          "Med / HighRes": "Safe Detour",
+          "Med / LowRes": "Safe Detour",
+          "High / HighRes": "Aerial Retardant",
+          "High / LowRes": "Evacuate / Hold"
+        },
+        "values": {
+          "Low / HighRes": 78.65,
+          "Low / LowRes": 78.65,
+          "Med / HighRes": 69.97,
+          "Med / LowRes": 69.97,
+          "High / HighRes": 33.12,
+          "High / LowRes": -38.94
+        }
+      },
+      {
+        "gamma": 0.95,
+        "iterations": 17,
+        "policies": {
+          "Low / HighRes": "Safe Detour",
+          "Low / LowRes": "Safe Detour",
+          "Med / HighRes": "Safe Detour",
+          "Med / LowRes": "Safe Detour",
+          "High / HighRes": "Aerial Retardant",
+          "High / LowRes": "Evacuate / Hold"
+        },
+        "values": {
+          "Low / HighRes": 80.46,
+          "Low / LowRes": 80.46,
+          "Med / HighRes": 74.1,
+          "Med / LowRes": 74.1,
+          "High / HighRes": 35.2,
+          "High / LowRes": -38.94
+        }
+      }
+    ]
+  }
+}
