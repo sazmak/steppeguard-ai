@@ -148,7 +148,8 @@ def build_technical_report_docx(bm: dict) -> None:
     r1.font.color.rgb = DocxRGB(0xF8, 0xFA, 0xFC)
     r2 = p0.add_run(
         "Student: Oral Sanzhar  |  Group: Stream 1, Practice 4  |  Track: 6B06101 AI and ML  |  "
-        "Course: AIF1303 AI Fundamentals (QAIRU, Astana, 2026)"
+        "Course: AIF1303 AI Fundamentals (QAIRU, Astana, 2026)\n"
+        "Live 3D Demo: https://steppeguard-ai.vercel.app  |  GitHub: https://github.com/sazmak/steppeguard-ai"
     )
     r2.font.size = Pt(9)
     r2.font.color.rgb = DocxRGB(0xCB, 0xD5, 0xE1)
@@ -498,13 +499,14 @@ def build_presentation_pptx(bm: dict) -> None:
         MUTED,
     )
 
-    p5 = tf.add_paragraph(); p5.space_before = PptPt(26)
+    p5 = tf.add_paragraph(); p5.space_before = PptPt(22)
     _add_run(
         p5,
         "Student: Oral Sanzhar (Solo Project)\n"
         "Group: Stream 1, Practice 4  ·  Track: 6B06101 AI and ML\n"
-        "QAIRU, Astana  ·  November 2026",
-        12.5,
+        "Live Demo: https://steppeguard-ai.vercel.app\n"
+        "GitHub: https://github.com/sazmak/steppeguard-ai",
+        12,
         WHITE,
         bold=True,
     )

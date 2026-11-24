@@ -71,3 +71,10 @@ Every major step, decision, tool used, audit result, and verification check is l
   3. Made `AI_USAGE_DECLARATION.md/.docx` 100% literal regarding visual QA vs programmatic slide geometry checks, distinguished single-run vs 30-seed stats cleanly, and unified preset naming.
   4. Verified `19/19` tests PASSED and confirmed via `git ls-files` that zero university lecture PDFs/PPTXs/DOCXs or `.venv` files are tracked.
   5. Tagged final release `v1.0-submission`.
+
+## Step 7 — GitHub Publication & Live Vercel Production Deployment (2026-11-25 01:14 – 01:32)
+- **Actions Performed:**
+  1. Added lightweight Vercel serverless entrypoint (`api/index.py`, `vercel.json`) and separated prod runtime deps (`requirements.txt`) from dev/doc deps (`requirements-dev.txt`).
+  2. Installed portable GitHub CLI (`gh` v2.105.0), authenticated as `sazmak`, created public repository `https://github.com/sazmak/steppeguard-ai`, and pushed `main` + tag `v1.0-submission`.
+  3. Verified live production deployment at `https://steppeguard-ai.vercel.app` via browser QA (HTTP 200 on `/`, Three.js 3D terrain, `POST /api/run`, `GET /api/benchmarks`, all 3 benchmark PNGs, 0 JS console errors).
+  4. Embedded live Demo & GitHub URLs into `README.md`, `TECHNICAL_REPORT.md/.docx`, and Slide 1 of `SteppeGuard_Presentation.pptx`.

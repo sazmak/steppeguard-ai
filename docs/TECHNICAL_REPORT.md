@@ -6,6 +6,8 @@
 - **Educational Program:** 6B06101 — AI and ML  
 - **Course:** AIF1303 — AI Fundamentals (QAIRU, Astana, Trimester 1, 2026–2027)  
 - **Project Type:** Solo Final Project  
+- **Live 3D Demo:** https://steppeguard-ai.vercel.app  
+- **GitHub Repository:** https://github.com/sazmak/steppeguard-ai  
 
 ---
 

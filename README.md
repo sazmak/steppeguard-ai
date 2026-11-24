@@ -1,9 +1,11 @@
 # SteppeGuard AI — Wildfire Risk Intelligence & Response Decision System
 
+> **Live 3D Demo:** [https://steppeguard-ai.vercel.app](https://steppeguard-ai.vercel.app)  
+> **GitHub Repository:** [https://github.com/sazmak/steppeguard-ai](https://github.com/sazmak/steppeguard-ai)  
 > **Course:** AIF1303 — AI Fundamentals (QAIRU, Astana, 2026–2027)  
 > **Program:** 6B06101 *AI and ML*  
 > **Author:** Oral Sanzhar (Stream 1, Practice 4 — Solo Project)  
-> **Demo Mode:** 100% Offline Interactive 3D WebGL (Three.js) + 2D Fallback
+> **Demo Mode:** Live HTTPS Deployment + 100% Offline Local 3D WebGL (Three.js) & 2D Fallback
 
 ![SteppeGuard AI 3D Live Demo](results/fig4_3d_live_demo.png)
 
