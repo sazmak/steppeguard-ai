@@ -355,6 +355,7 @@ def explain_cell_ml(
             }
         )
 
+    neg_z_str = f"{-z:.3f}" if z < 0 else f"-{z:.3f}"
     return {
         "model": "Logistic Regression",
         "terms": terms,
@@ -363,7 +364,7 @@ def explain_cell_ml(
         "probability": round(prob, 4),
         "threshold_tau": round(float(tau), 3),
         "predicted_alert": bool(prob >= tau),
-        "formula": f"z = w^T x_std + b = {z:.3f}  →  P(Fire|x) = 1 / (1 + e^(-{z:.3f})) = {prob:.4f}",
+        "formula": f"z = w^T x_std + b = {z:.3f}  →  P(Fire|x) = 1 / (1 + e^({neg_z_str})) = {prob:.4f}",
         "explanation": (
             f"Standardized features produce score z = {z:.2f}, mapped by the sigmoid "
             f"to a {prob*100:.1f}% fire probability ({'ALERT' if prob >= tau else 'Below threshold'} at τ = {tau:.2f})."

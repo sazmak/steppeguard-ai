@@ -65,6 +65,21 @@ class RunRequest(BaseModel):
     def validate_finite(cls, v: Optional[float], info: Any) -> Optional[float]:
         return _check_finite(v, info.field_name)
 
+    @field_validator("extra_obstacles")
+    @classmethod
+    def validate_obstacles(cls, v: List[Tuple[int, int]]) -> List[Tuple[int, int]]:
+        for r, c in v:
+            if not (0 <= r <= 9 and 0 <= c <= 9):
+                raise ValueError(f"Obstacle coordinate ({r}, {c}) out of 0..9 grid bounds.")
+        return v
+
+    @field_validator("sensor_events")
+    @classmethod
+    def validate_sensor_cap(cls, v: List[SensorEvent]) -> List[SensorEvent]:
+        if len(v) > 30:
+            raise ValueError("Maximum 30 sensor events per simulation request.")
+        return v
+
 
 @app.get("/api/health")
 def health() -> Dict[str, Any]:
@@ -128,6 +143,8 @@ def get_benchmarks() -> JSONResponse:
 
 if STATIC_DIR.exists():
     app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+if RESULTS_DIR.exists():
+    app.mount("/results", StaticFiles(directory=str(RESULTS_DIR)), name="results")
 
 
 @app.get("/")

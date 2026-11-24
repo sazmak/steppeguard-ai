@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SteppeGuard AI — 3D Wildfire Risk Intelligence & Decision System</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23ea580c'/><text x='50' y='68' font-size='56' text-anchor='middle'>🔥</text></svg>" />
+  <link rel="stylesheet" href="/static/styles.css" />
+  <!-- Bundled locally for 100% offline defense reliability (Rule #9) -->
+  <script src="/static/vendor/three.min.js"></script>
+</head>
+<body>
+  <!-- TOP NAVIGATION BAR -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon" aria-hidden="true">🔥</div>
+      <div>
+        <div class="brand-title">SteppeGuard <span class="accent">AI</span></div>
+        <div class="brand-sub">Wildfire Risk Intelligence &amp; Decision Support · AIF1303 (6B06101 AI &amp; ML)</div>
+      </div>
+    </div>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab-btn active" data-tab="mission" role="tab">3D Live Mission</button>
+      <button class="tab-btn" data-tab="math" role="tab">Math &amp; Formulas</button>
+      <button class="tab-btn" data-tab="benchmarks" role="tab">30-Seed Benchmarks</button>
+    </nav>
+
+    <div class="status-pills">
+      <span class="pill pill-green" title="All assets served from localhost">● Offline Ready</span>
+      <span class="pill pill-amber" title="Kazakhstan AI Law No. 230-VIII ZRK">Human-in-the-Loop</span>
+      <span class="pill pill-slate">Oral Sanzhar · S1 P4</span>
+    </div>
+  </header>
+
+  <!-- TAB 1: 3D LIVE MISSION -->
+  <main id="tab-mission" class="tab-panel active">
+    <div class="mission-grid">
+
+      <!-- LEFT RAIL: CONTROLS & SCENARIOS -->
+      <aside class="panel rail-left">
+        <section class="card">
+          <h2 class="card-title">1. Kazakhstan Scenario Presets</h2>
+          <div id="preset-buttons" class="preset-list">
+            <button class="preset-btn active" data-preset="abai_high_wind">
+              <div class="preset-head"><span>Abai High Wind</span><span class="badge badge-red">High Risk</span></div>
+              <div class="preset-desc">Severe fire front → A* detours, MDP picks Aerial Retardant</div>
+            </button>
+            <button class="preset-btn" data-preset="kostanay_dry_steppe">
+              <div class="preset-head"><span>Kostanay Dry Steppe</span><span class="badge badge-amber">Med Risk</span></div>
+              <div class="preset-desc">Dry brush corridor → MDP selects Safe Detour</div>
+            </button>
+            <button class="preset-btn" data-preset="akmola_sensor_noise">
+              <div class="preset-head"><span>Akmola Watchtower</span><span class="badge badge-green">Low Risk</span></div>
+              <div class="preset-desc">Calm start → click cell to test live Bayes sensor alert!</div>
+            </button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2 class="card-title">2. AI Pipeline Parameters</h2>
+
+          <div class="control-row">
+            <label>Topic 1 ML Classifier</label>
+            <div class="segmented" id="model-toggle">
+              <button class="seg-btn active" data-value="logistic_regression">LogReg</button>
+              <button class="seg-btn" data-value="gaussian_nb">Gaussian NB</button>
+            </div>
+          </div>
+
+          <div class="control-row">
+            <label>Emergency Resources</label>
+            <div class="segmented" id="resource-toggle">
+              <button class="seg-btn active" data-value="High">High (Aircraft)</button>
+              <button class="seg-btn" data-value="Low">Low (Ground)</button>
+            </div>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-head">
+              <label for="slider-wind">Regional Wind Severity</label>
+              <span id="val-wind" class="mono">0.85</span>
+            </div>
+            <input id="slider-wind" type="range" min="0.05" max="1.00" step="0.05" value="0.85" />
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-head">
+              <label for="slider-lambda">A* Risk Penalty (λ)</label>
+              <span id="val-lambda" class="mono">3.5</span>
+            </div>
+            <input id="slider-lambda" type="range" min="0.0" max="8.0" step="0.5" value="3.5" />
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-head">
+              <label for="slider-gamma">MDP Discount Factor (γ)</label>
+              <span id="val-gamma" class="mono">0.90</span>
+            </div>
+            <input id="slider-gamma" type="range" min="0.50" max="0.95" step="0.05" value="0.90" />
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-head">
+              <label for="slider-tau">Alert Threshold (τ)</label>
+              <span id="val-tau" class="mono">Auto</span>
+            </div>
+            <input id="slider-tau" type="range" min="0.15" max="0.75" step="0.05" value="0.35" />
+          </div>
+
+          <div class="seed-row">
+            <label for="input-seed">Reproducible Seed</label>
+            <input id="input-seed" type="number" min="0" max="9999" value="42" />
+            <button id="btn-reset-all" class="btn-ghost-sm">Reset</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2 class="card-title">3. Sector Interactive Actions</h2>
+          <p class="hint">Click any sector on the 3D terrain to inspect or intervene:</p>
+          <div id="selected-cell-chip" class="cell-chip">Selected Sector: (5, 5)</div>
+          <div class="action-grid">
+            <button id="btn-sensor-alert" class="btn-amber">📡 Smoke Alert (+Bayes)</button>
+            <button id="btn-sensor-clear" class="btn-cyan">✓ Clear Scan (-Bayes)</button>
+            <button id="btn-toggle-obs" class="btn-slate">⛰ Toggle Obstacle</button>
+            <button id="btn-clear-edits" class="btn-ghost">↺ Clear Edits</button>
+          </div>
+        </section>
+      </aside>
+
+      <!-- CENTER STAGE: 3D ANIMATED STEPPE VIEWPORT -->
+      <section class="viewport-shell">
+        <div class="viewport-toolbar">
+          <div class="toolbar-group">
+            <button id="btn-play-anim" class="btn-primary">▶ Animate Search &amp; Drone</button>
+            <button id="btn-render-mode" class="btn-slate">Switch to 2D</button>
+            <button id="btn-reset-cam" class="btn-ghost-sm">Reset View</button>
+          </div>
+          <div class="toolbar-toggles">
+            <label class="chk"><input type="checkbox" id="chk-astar" checked /> <span class="dot dot-green"></span>A*</label>
+            <label class="chk"><input type="checkbox" id="chk-bfs" checked /> <span class="dot dot-red"></span>BFS</label>
+            <label class="chk"><input type="checkbox" id="chk-ucs" /> <span class="dot dot-cyan"></span>UCS</label>
+            <label class="chk"><input type="checkbox" id="chk-explored" checked /> <span class="dot dot-purple"></span>Explored</label>
+          </div>
+        </div>
+
+        <div id="viewport-container" class="viewport-container">
+          <canvas id="canvas-3d"></canvas>
+          <canvas id="canvas-2d" class="hidden"></canvas>
+
+          <div id="no-path-banner" class="overlay-banner hidden">
+            ⚠ No feasible ground path — corridor completely blocked. MDP shifts to non-ground response.
+          </div>
+
+          <div id="api-error-banner" class="overlay-banner hidden" style="top:116px;background:rgba(180,83,9,0.94);"></div>
+
+          <div class="viewport-hud-topleft">
+            <div id="hud-scenario-title" class="hud-title">Abai High-Wind Fire Corridor</div>
+            <div id="hud-scenario-region" class="hud-sub">Abai Region · Drag to orbit · Scroll to zoom · Click tile to inspect</div>
+          </div>
+
+          <div class="viewport-legend">
+            <span><i class="swatch sw-base"></i>Base (5,0)</span>
+            <span><i class="swatch sw-goal"></i>Settlement (5,9)</span>
+            <span><i class="swatch sw-safe"></i>Low Risk</span>
+            <span><i class="swatch sw-med"></i>Medium</span>
+            <span><i class="swatch sw-fire"></i>High Fire Risk</span>
+            <span><i class="swatch sw-obs"></i>Obstacle</span>
+          </div>
+        </div>
+
+        <div class="synthetic-footer">
+          <strong>Transparency Notice (RK AI Law No. 230-VIII ZRK):</strong>
+          All steppe weather/thermal telemetry, transition tables, and rewards are <em>synthetic domain-inspired simulation data</em> for AIF1303 academic demonstration.
+        </div>
+      </section>
+
+      <!-- RIGHT RAIL: LIVE AI INTELLIGENCE & HUMAN-IN-THE-LOOP -->
+      <aside class="panel rail-right">
+        <section class="card card-mdp">
+          <div class="card-header-row">
+            <h2 class="card-title">Topic 3 · MDP Optimal Policy</h2>
+            <span id="mdp-iters-badge" class="badge badge-cyan">—</span>
+          </div>
+          <div id="mdp-rec-action" class="rec-action">Loading…</div>
+          <div id="mdp-active-state" class="rec-sub">Connecting to local AI engine…</div>
+          <div id="mdp-q-bars" class="q-bars"></div>
+
+          <div class="hitl-box">
+            <div class="hitl-head">Human-in-the-Loop Dispatcher Gate</div>
+            <div class="hitl-actions">
+              <button id="btn-hitl-confirm" class="btn-green-sm">✓ Approve AI Policy</button>
+              <button id="btn-hitl-override" class="btn-outline-sm">✋ Manual Override</button>
+            </div>
+            <div id="hitl-status" class="hitl-status">Status: Awaiting live policy…</div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header-row">
+            <h2 class="card-title">Topic 2 · Search Comparison</h2>
+            <span id="search-savings-badge" class="badge badge-green">—</span>
+          </div>
+          <table class="mini-table">
+            <thead>
+              <tr><th>Algo</th><th>Nodes</th><th>Cost</th><th>Fire Exp.</th></tr>
+            </thead>
+            <tbody id="search-table-body"></tbody>
+          </table>
+          <div id="search-insight" class="mini-insight"></div>
+        </section>
+
+        <section class="card">
+          <div class="card-header-row">
+            <h2 class="card-title">Topic 1 · Sector Math Preview</h2>
+            <span id="cell-risk-badge" class="badge badge-amber">P = 0.00</span>
+          </div>
+          <div id="cell-preview-body" class="preview-body"></div>
+          <div id="bayes-live-box" class="bayes-box hidden"></div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <!-- TAB 2: MATH & FORMULAS (1st-YEAR FRIENDLY STEP-BY-STEP) -->
+  <main id="tab-math" class="tab-panel">
+    <div class="page-wrap">
+      <div class="page-intro">
+        <h1>Step-by-Step Mathematical Walkthrough</h1>
+        <p>Every calculation below updates live from the currently selected scenario and sector on the 3D map (<span class="mono" id="math-cell-label">Sector (5, 5)</span>), formatted as <strong>Input → Calculation → Output → Intuition</strong>.</p>
+      </div>
+
+      <div class="math-grid">
+        <!-- TOPIC 1 CARD -->
+        <section class="card">
+          <div class="card-header-row">
+            <h2 class="card-title">Topic 1 · Classical ML (Week 8) + Bayes Bridge (Week 6)</h2>
+            <span class="badge badge-cyan" id="math-ml-model-badge">Logistic Regression</span>
+          </div>
+          <p class="analogy"><strong>1st-Year Analogy:</strong> Like a weather forecaster weighing 5 clues (heat, dry air, wind, dry grass, satellite heat) into one risk score, then passing it through an S-curve (sigmoid) to get a 0–100% fire probability.</p>
+          <div id="math-ml-formula" class="formula-box"></div>
+          <table class="data-table">
+            <thead>
+              <tr><th>Feature</th><th>Raw</th><th>Z-Score</th><th>Weight / LLR</th><th>Contribution</th></tr>
+            </thead>
+            <tbody id="math-ml-terms"></tbody>
+          </table>
+          <div id="math-ml-explain" class="explain-note"></div>
+          <div id="math-bayes-section" class="bayes-box hidden"></div>
+        </section>
+
+        <!-- TOPIC 2 CARD -->
+        <section class="card">
+          <div class="card-header-row">
+            <h2 class="card-title">Topic 2 · Risk-Aware A* Heuristic Search (Week 2)</h2>
+            <span class="badge badge-green">Admissible &amp; Optimal</span>
+          </div>
+          <p class="analogy"><strong>1st-Year Analogy:</strong> Like a GPS navigator that treats burning steppe sectors as giant traffic jams—paying a small distance detour to avoid driving straight into danger, while Manhattan distance keeps the search focused on the settlement.</p>
+          <div id="math-search-formula" class="formula-box"></div>
+          <div id="math-search-node" class="kv-grid"></div>
+          <p class="explain-note">
+            <strong>Optimality Guarantee (Lecture 2, Slide 34):</strong> Because every free cell costs at least <span class="mono" id="math-cmin">c_min</span>, the heuristic <span class="mono">h(n) = c_min · (|r−r_g| + |c−c_g|)</span> never overestimates true remaining cost (<span class="mono">0 ≤ h(n) ≤ h*(n)</span>). Thus A* matches UCS's exact optimal cost while expanding far fewer nodes.
+          </p>
+        </section>
+
+        <!-- TOPIC 3 CARD -->
+        <section class="card span-2">
+          <div class="card-header-row">
+            <h2 class="card-title">Topic 3 · Markov Decision Process &amp; Bellman Value Iteration (Week 5)</h2>
+            <span class="badge badge-amber" id="math-mdp-badge">Bellman Optimality</span>
+          </div>
+          <p class="analogy"><strong>1st-Year Analogy:</strong> A* gives you a <em>map route</em>, while an MDP gives a commander a <em>playbook</em>: what action to choose in every fire/resource situation when wind can make the fire unpredictably worse tomorrow.</p>
+          <div id="math-mdp-formula" class="formula-box"></div>
+
+          <div class="sub-grid-2">
+            <div>
+              <h3 class="sub-title">Full Optimal Policy &amp; Value Table (8 States)</h3>
+              <table class="data-table">
+                <thead>
+                  <tr><th>State</th><th>V*(s)</th><th>Optimal Policy π*(s)</th><th>Monitor</th><th>Direct</th><th>Detour</th><th>Aerial</th><th>Evac</th></tr>
+                </thead>
+                <tbody id="math-mdp-table"></tbody>
+              </table>
+            </div>
+            <div>
+              <h3 class="sub-title">Active State Bellman Breakdown · Σ P(s'|s,a)[R + γV*(s')]</h3>
+              <table class="data-table">
+                <thead>
+                  <tr><th>Next State s'</th><th>P(s'|s,a)</th><th>Reward R</th><th>V*(s')</th><th>Contribution</th></tr>
+                </thead>
+                <tbody id="math-bellman-body"></tbody>
+              </table>
+
+              <h3 class="sub-title" style="margin-top:16px;">Discount Factor (γ) Policy Sensitivity</h3>
+              <table class="data-table">
+                <thead>
+                  <tr><th>γ</th><th>Sweeps</th><th>Low/High</th><th>Med/High</th><th>High/High</th><th>High/Low</th></tr>
+                </thead>
+                <tbody id="math-gamma-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- TAB 3: 30-SEED BENCHMARKS & RESPONSIBLE AI -->
+  <main id="tab-benchmarks" class="tab-panel">
+    <div class="page-wrap">
+      <div class="page-intro">
+        <h1>Quantitative Testing &amp; 30-Seed Benchmarks</h1>
+        <p>All metrics below are averaged across <strong>30 independent random seeds</strong> (zero spatial leakage via scene-grouped train/val/test splits) and backed by <strong>19 automated pytest checks</strong>.</p>
+      </div>
+
+      <div id="benchmark-kpis" class="kpi-row"></div>
+
+      <div class="figure-grid">
+        <figure class="card figure-card">
+          <img src="/results/fig1_ml_evaluation.png" alt="Classical ML 30-seed comparison and confusion matrix" />
+          <figcaption><strong>Figure 1 (Topic 1):</strong> Tuning threshold τ on validation raises wildfire Recall from ~78% to ~87% (Lecture 8 Slide 60: missing a real fire is far costlier than a false alarm). Brier score 0.085 vs ~0.22 prevalence baseline.</figcaption>
+        </figure>
+        <figure class="card figure-card">
+          <img src="/results/fig2_search_benchmark.png" alt="A* vs UCS vs BFS benchmark across 3 presets" />
+          <figcaption><strong>Figure 2 (Topic 2):</strong> Risk-Aware A* achieves identical optimal cost to UCS while expanding ~49% fewer nodes on Abai High Wind and cutting cumulative fire risk exposure by 98.3% vs unweighted BFS.</figcaption>
+        </figure>
+        <figure class="card figure-card">
+          <img src="/results/fig3_mdp_convergence.png" alt="MDP Bellman Value Iteration convergence and gamma sensitivity" />
+          <figcaption><strong>Figure 3 (Topic 3):</strong> Value Iteration converges geometrically to θ = 10⁻⁶ in 17 sweeps. Raising γ from 0.50 to ≥0.80 flips Med/HighRes from myopic Aerial Retardant to farsighted Safe Detour.</figcaption>
+        </figure>
+      </div>
+
+      <section class="card law-card">
+        <h2 class="card-title">Responsible AI &amp; Kazakhstan Legal Framework (Law No. 230-VIII ZRK, 17 Nov 2025)</h2>
+        <div class="law-grid">
+          <div><strong>Risk Classification:</strong> High-Risk emergency decision domain (potential impact on human safety &amp; environment).</div>
+          <div><strong>Autonomy Tier:</strong> Low Autonomy (Human-in-the-Loop) — AI recommends &amp; explains probabilities; human dispatcher approves/overrides.</div>
+          <div><strong>Transparency &amp; Data:</strong> Synthetic simulation telemetry clearly labeled; zero personal data collected or transmitted.</div>
+          <div><strong>Auditability:</strong> Reproducible seeds, full mathematical inspection per sector, and documented AI Usage Declaration.</div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
