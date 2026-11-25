@@ -78,3 +78,9 @@ Every major step, decision, tool used, audit result, and verification check is l
   2. Installed portable GitHub CLI (`gh` v2.105.0), authenticated as `sazmak`, created public repository `https://github.com/sazmak/steppeguard-ai`, and pushed `main` + tag `v1.0-submission`.
   3. Verified live production deployment at `https://steppeguard-ai.vercel.app` via browser QA (HTTP 200 on `/`, Three.js 3D terrain, `POST /api/run`, `GET /api/benchmarks`, all 3 benchmark PNGs, 0 JS console errors).
   4. Embedded live Demo & GitHub URLs into `README.md`, `TECHNICAL_REPORT.md/.docx`, and Slide 1 of `SteppeGuard_Presentation.pptx`.
+
+## Step 8 — Automated 2:48 Live 3D Demo Video with ElevenLabs (`sazmak2`) (2026-11-25 12:45 – 12:56)
+- **Tools / Models Used:** ElevenLabs API (`eleven_multilingual_v2`, student's cloned voice `sazmak2`), Playwright + Microsoft Edge (1280×720 live WebGL recording), `ffmpeg` (`H.264/AAC`).
+- **Security:** Stored `ELEVENLABS_API_KEY` strictly in gitignored `.env` (verified never tracked by Git).
+- **Output:** `docs/SteppeGuard_Demo_Video.mp4` (`2:48`, `22.39 MB`, synchronized 6-scene live walkthrough).
+- **Transparency:** Added ElevenLabs TTS disclosure to `docs/AI_USAGE_DECLARATION.md` and rebuilt `docs/AI_Usage_Declaration.docx`.

@@ -15,6 +15,11 @@ Thumbs.db
 .idea/
 *.log
 
+# Secrets & Environment
+.env
+.env.*
+
 # Temporary / scratch
 *.tmp
 *.bak
+scratch_video/
