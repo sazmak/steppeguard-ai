@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 340" width="100%" role="img" aria-label="SteppeGuard AI — Wildfire Risk Intelligence, Risk-Aware Routing and Sequential Decision Support">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070D19"/>
+      <stop offset="55%" stop-color="#0F1C33"/>
+      <stop offset="100%" stop-color="#0A1324"/>
+    </linearGradient>
+    <linearGradient id="accentFire" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#F97316"/>
+      <stop offset="50%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#38BDF8"/>
+    </linearGradient>
+    <radialGradient id="glowFire" cx="78%" cy="50%" r="36%">
+      <stop offset="0%" stop-color="#F97316" stop-opacity="0.34"/>
+      <stop offset="55%" stop-color="#EF4444" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#070D19" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowCyan" cx="18%" cy="25%" r="35%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#070D19" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#1E3A5F" stroke-opacity="0.28" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="340" rx="18" fill="url(#bg)"/>
+  <rect width="1200" height="340" rx="18" fill="url(#grid)"/>
+  <rect width="1200" height="340" rx="18" fill="url(#glowFire)"/>
+  <rect width="1200" height="340" rx="18" fill="url(#glowCyan)"/>
+  <rect x="0" y="0" width="1200" height="5" rx="2" fill="url(#accentFire)"/>
+  <rect x="1" y="1" width="1198" height="338" rx="17" fill="none" stroke="#38BDF8" stroke-opacity="0.28" stroke-width="1.5"/>
+
+  <!-- Left Title Block -->
+  <g transform="translate(56, 54)">
+    <rect x="0" y="0" width="298" height="28" rx="14" fill="#F97316" fill-opacity="0.16" stroke="#F97316" stroke-opacity="0.55"/>
+    <text x="14" y="18.5" fill="#FDBA74" font-family="Segoe UI, system-ui, sans-serif" font-size="11.5" font-weight="700" letter-spacing="1.1">AIF1303 · 6B06101 AI &amp; ML · QAIRU ASTANA</text>
+
+    <text x="0" y="92" fill="#F8FAFC" font-family="Segoe UI, system-ui, sans-serif" font-size="56" font-weight="800" letter-spacing="-0.8">SteppeGuard <tspan fill="#38BDF8">AI</tspan></text>
+    <text x="0" y="130" fill="#CBD5E1" font-family="Segoe UI, system-ui, sans-serif" font-size="19" font-weight="500">3D Wildfire Risk Intelligence, Risk-Aware Routing &amp; Sequential Decision Support</text>
+    <text x="0" y="160" fill="#94A3B8" font-family="Segoe UI, system-ui, sans-serif" font-size="14">Classical ML (Week 8) + Bayes Sensor Bridge (Week 6)  →  Risk-Aware A* (Week 2)  →  MDP Value Iteration (Week 5)</text>
+
+    <!-- Bottom pills -->
+    <g transform="translate(0, 194)">
+      <rect x="0" y="0" width="160" height="34" rx="8" fill="#22C55E" fill-opacity="0.15" stroke="#22C55E" stroke-opacity="0.5"/>
+      <text x="16" y="21.5" fill="#86EFAC" font-family="Consolas, monospace" font-size="12.5" font-weight="700">-98.3% FIRE RISK</text>
+
+      <rect x="174" y="0" width="166" height="34" rx="8" fill="#38BDF8" fill-opacity="0.15" stroke="#38BDF8" stroke-opacity="0.5"/>
+      <text x="190" y="21.5" fill="#7DD3FC" font-family="Consolas, monospace" font-size="12.5" font-weight="700">19/19 PYTEST PASS</text>
+
+      <rect x="354" y="0" width="176" height="34" rx="8" fill="#F59E0B" fill-opacity="0.15" stroke="#F59E0B" stroke-opacity="0.5"/>
+      <text x="370" y="21.5" fill="#FCD34D" font-family="Consolas, monospace" font-size="12.5" font-weight="700">100% OFFLINE 3D</text>
+
+      <rect x="544" y="0" width="184" height="34" rx="8" fill="#A78BFA" fill-opacity="0.15" stroke="#A78BFA" stroke-opacity="0.5"/>
+      <text x="560" y="21.5" fill="#DDD6FE" font-family="Consolas, monospace" font-size="12.5" font-weight="700">HUMAN-IN-THE-LOOP</text>
+    </g>
+  </g>
+
+  <!-- Right Tactical Isometric Radar Emblem -->
+  <g transform="translate(885, 58)">
+    <rect x="0" y="0" width="260" height="224" rx="14" fill="#0B1426" fill-opacity="0.88" stroke="#38BDF8" stroke-opacity="0.35"/>
+    <text x="18" y="26" fill="#7DD3FC" font-family="Consolas, monospace" font-size="11" font-weight="700">LIVE CORRIDOR · ABAI</text>
+    <!-- Mini stylized grid -->
+    <g transform="translate(26, 44)">
+      <rect x="0" y="0" width="208" height="124" rx="8" fill="#0F1D33" stroke="#1E3A5F"/>
+      <!-- Fire zone -->
+      <rect x="64" y="26" width="80" height="68" rx="10" fill="#EF4444" fill-opacity="0.35" stroke="#F97316" stroke-width="1.5"/>
+      <circle cx="104" cy="60" r="22" fill="#F97316" fill-opacity="0.55"/>
+      <circle cx="104" cy="60" r="10" fill="#FACC15"/>
+      <!-- Red BFS path straight through fire -->
+      <line x1="20" y1="62" x2="188" y2="62" stroke="#F43F5E" stroke-width="3" stroke-dasharray="6,4"/>
+      <!-- Green A* safe detour path -->
+      <path d="M 20 62 L 20 106 L 188 106 L 188 62" fill="none" stroke="#22C55E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Base & Goal beacons -->
+      <circle cx="20" cy="62" r="7" fill="#38BDF8"/>
+      <circle cx="188" cy="62" r="7" fill="#22C55E"/>
+      <text x="12" y="48" fill="#7DD3FC" font-family="Consolas, monospace" font-size="10" font-weight="700">BASE</text>
+      <text x="168" y="48" fill="#86EFAC" font-family="Consolas, monospace" font-size="10" font-weight="700">GOAL</text>
+      <text x="68" y="18" fill="#FDA4AF" font-family="Consolas, monospace" font-size="9.5">BFS → FIRE (7.20)</text>
+      <text x="64" y="119" fill="#86EFAC" font-family="Consolas, monospace" font-size="9.5" font-weight="700">A* SAFE DETOUR (0.12)</text>
+    </g>
+    <text x="18" y="194" fill="#CBD5E1" font-family="Consolas, monospace" font-size="11">MDP Policy: <tspan fill="#4ADE80" font-weight="700">Aerial Retardant</tspan></text>
+    <text x="18" y="211" fill="#94A3B8" font-family="Consolas, monospace" font-size="10">RK AI Law No. 230-VIII · Low Autonomy</text>
+  </g>
+</svg>

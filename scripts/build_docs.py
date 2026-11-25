@@ -21,11 +21,39 @@ from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import PP_ALIGN
 from pptx.util import Inches as PptInches, Pt as PptPt
+import qrcode
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 RESULTS = ROOT / "results"
+ASSETS = ROOT / "assets"
 DOCS.mkdir(parents=True, exist_ok=True)
+ASSETS.mkdir(parents=True, exist_ok=True)
+
+LIVE_DEMO_URL = "https://steppeguard-ai.vercel.app"
+GITHUB_REPO_URL = "https://github.com/sazmak/steppeguard-ai"
+
+
+def generate_qr_codes() -> tuple[Path, Path]:
+    """Generate crisp, high-contrast scannable QR PNGs for Live 3D Demo & GitHub."""
+    paths = []
+    for url, fname, fg in [
+        (LIVE_DEMO_URL, "qr_demo.png", "#070D19"),
+        (GITHUB_REPO_URL, "qr_github.png", "#070D19"),
+    ]:
+        qr = qrcode.QRCode(
+            version=None,
+            error_correction=qrcode.constants.ERROR_CORRECT_M,
+            box_size=12,
+            border=3,
+        )
+        qr.add_data(url)
+        qr.make(fit=True)
+        img = qr.make_image(fill_color=fg, back_color="#FFFFFF")
+        out_path = ASSETS / fname
+        img.save(str(out_path))
+        paths.append(out_path)
+    return paths[0], paths[1]
 
 
 # =============================================================================
@@ -477,50 +505,63 @@ def build_presentation_pptx(bm: dict) -> None:
     bar.fill.fore_color.rgb = ORANGE
     bar.line.fill.background()
 
-    tb = s1.shapes.add_textbox(PptInches(0.65), PptInches(0.95), PptInches(5.6), PptInches(5.7))
+    tb = s1.shapes.add_textbox(PptInches(0.60), PptInches(0.70), PptInches(5.65), PptInches(3.95))
     tf = tb.text_frame
     tf.word_wrap = True
     _add_run(tf.paragraphs[0], "AIF1303 · AI FUNDAMENTALS · FINAL PROJECT", 11.5, AMBER, bold=True)
 
-    p2 = tf.add_paragraph(); p2.space_before = PptPt(14)
-    _add_run(p2, "SteppeGuard AI", 44, WHITE, bold=True)
+    p2 = tf.add_paragraph(); p2.space_before = PptPt(10)
+    _add_run(p2, "SteppeGuard AI", 42, WHITE, bold=True)
 
-    p3 = tf.add_paragraph(); p3.space_before = PptPt(8)
-    _add_run(p3, "Wildfire Risk Intelligence, Risk-Aware Routing & Sequential Decision Support", 18, CYAN)
+    p3 = tf.add_paragraph(); p3.space_before = PptPt(6)
+    _add_run(p3, "Wildfire Risk Intelligence, Risk-Aware Routing & Sequential Decision Support", 16.5, CYAN)
 
-    p4 = tf.add_paragraph(); p4.space_before = PptPt(20)
+    p4 = tf.add_paragraph(); p4.space_before = PptPt(16)
     _add_run(
         p4,
         "Chaining Three Course Topics in One Live 3D Simulator:\n"
         "  1. Classical ML (Week 8) + Bayes Sensor Bridge (Week 6)\n"
         "  2. Risk-Aware A* Heuristic Search (Week 2)\n"
         "  3. MDP Bellman Value Iteration (Week 5)",
-        13.5,
+        12.8,
         MUTED,
     )
 
-    p5 = tf.add_paragraph(); p5.space_before = PptPt(22)
-    _add_run(
-        p5,
-        "Student: Oral Sanzhar (Solo Project)\n"
-        "Group: Stream 1, Practice 4  ·  Track: 6B06101 AI and ML\n"
-        "Live Demo: https://steppeguard-ai.vercel.app\n"
-        "GitHub: https://github.com/sazmak/steppeguard-ai",
-        12,
-        WHITE,
-        bold=True,
-    )
+    # Bottom-left Author + QR Code Card (Live 3D Demo instant scan!)
+    qr_demo_path = ASSETS / "qr_demo.png"
+    qr_github_path = ASSETS / "qr_github.png"
+    id_card = s1.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, PptInches(0.60), PptInches(4.82), PptInches(5.60), PptInches(1.88))
+    id_card.fill.solid(); id_card.fill.fore_color.rgb = CARD_BG
+    id_card.line.color.rgb = CYAN; id_card.line.width = PptPt(1.2)
+
+    if qr_demo_path.exists():
+        s1.shapes.add_picture(str(qr_demo_path), PptInches(0.76), PptInches(4.96), width=PptInches(1.42))
+        qlbl = s1.shapes.add_textbox(PptInches(0.70), PptInches(6.40), PptInches(1.56), PptInches(0.25))
+        qp = qlbl.text_frame.paragraphs[0]; qp.alignment = PP_ALIGN.CENTER
+        _add_run(qp, "SCAN LIVE 3D", 8.5, CYAN, bold=True)
+
+    atb = s1.shapes.add_textbox(PptInches(2.34), PptInches(4.98), PptInches(3.75), PptInches(1.58))
+    atf = atb.text_frame; atf.word_wrap = True
+    _add_run(atf.paragraphs[0], "Oral Sanzhar (Solo Project)", 14, WHITE, bold=True)
+    ap2 = atf.add_paragraph(); ap2.space_before = PptPt(4)
+    _add_run(ap2, "Stream 1, Practice 4  ·  6B06101 AI & ML", 11.2, MUTED)
+    ap3 = atf.add_paragraph(); ap3.space_before = PptPt(8)
+    _add_run(ap3, "Live 3D: steppeguard-ai.vercel.app", 10.8, GREEN, bold=True, font_name="Consolas")
+    ap4 = atf.add_paragraph(); ap4.space_before = PptPt(3)
+    _add_run(ap4, "GitHub:  github.com/sazmak/steppeguard-ai", 10.0, CYAN, font_name="Consolas")
 
     if (RESULTS / "fig4_3d_live_demo.png").exists():
-        frame = s1.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, PptInches(6.45), PptInches(1.05), PptInches(6.35), PptInches(5.25))
+        frame = s1.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, PptInches(6.45), PptInches(0.85), PptInches(6.35), PptInches(5.85))
         frame.fill.solid(); frame.fill.fore_color.rgb = CARD_BG
         frame.line.color.rgb = CYAN; frame.line.width = PptPt(1.5)
-        s1.shapes.add_picture(str(RESULTS / "fig4_3d_live_demo.png"), PptInches(6.58), PptInches(1.22), width=PptInches(6.10))
-        cap = s1.shapes.add_textbox(PptInches(6.58), PptInches(5.22), PptInches(6.1), PptInches(0.95))
+        s1.shapes.add_picture(str(RESULTS / "fig4_3d_live_demo.png"), PptInches(6.58), PptInches(1.05), width=PptInches(6.10))
+        cap = s1.shapes.add_textbox(PptInches(6.58), PptInches(5.05), PptInches(6.10), PptInches(1.35))
         ctf = cap.text_frame; ctf.word_wrap = True
         _add_run(
             ctf.paragraphs[0],
-            "Live 100% Offline 3D Three.js Command Center · Synthetic Simulation Telemetry\nHuman-in-the-Loop Decision Support (RK AI Law No. 230-VIII ZRK)",
+            "Live 100% Offline 3D Three.js Command Center · Synthetic Simulation Telemetry\n"
+            "Human-in-the-Loop Decision Support (RK AI Law No. 230-VIII ZRK)\n"
+            "Scan the QR code on the left to test the live 3D simulator on your phone!",
             10.5,
             AMBER,
         )
@@ -738,15 +779,36 @@ def build_presentation_pptx(bm: dict) -> None:
         accent=AMBER, body_size=11.8,
     )
     _add_card(
-        s7, 0.55, 4.15, 12.2, 2.55,
-        "Limitations, Future Work & Ready for Questions",
+        s7, 0.55, 4.10, 7.55, 2.72,
+        "Limitations, Future Work & Ready for Q&A",
         [
             "Current Scope: Synthetic domain-inspired telemetry & static single-step grid per decision tick (explicitly labeled per course guidelines).",
-            "Next Semester Roadmap: Real Kazhydromet weather & NASA FIRMS/MODIS fire feeds, Platt probability calibration, multi-step dynamic wind-spread physics, and POMDP / Deep RL control.",
-            "Thank you! Ready for live demonstration and Q&A — Oral Sanzhar (Stream 1, Practice 4, 6B06101 AI & ML).",
+            "Next Semester Roadmap: Real Kazhydromet weather & NASA FIRMS/MODIS fire feeds, Platt calibration, dynamic wind-spread physics & Deep RL.",
+            "Thank you! Ready for live demonstration & Q&A — Oral Sanzhar (Stream 1, Practice 4).",
         ],
-        accent=CYAN, body_size=12,
+        accent=CYAN, body_size=11.8,
     )
+
+    # Right-bottom Dual QR Panel (Live 3D Demo + GitHub Repo)
+    qr_box = s7.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, PptInches(8.30), PptInches(4.10), PptInches(4.45), PptInches(2.72))
+    qr_box.fill.solid(); qr_box.fill.fore_color.rgb = CARD_BG
+    qr_box.line.color.rgb = GREEN; qr_box.line.width = PptPt(1.5)
+
+    qt = s7.shapes.add_textbox(PptInches(8.42), PptInches(4.18), PptInches(4.20), PptInches(0.32))
+    qtp = qt.text_frame.paragraphs[0]; qtp.alignment = PP_ALIGN.CENTER
+    _add_run(qtp, "SCAN TO TRY LIVE OR INSPECT CODE", 10.5, GREEN, bold=True)
+
+    if qr_demo_path.exists():
+        s7.shapes.add_picture(str(qr_demo_path), PptInches(8.62), PptInches(4.56), width=PptInches(1.68))
+        l1 = s7.shapes.add_textbox(PptInches(8.42), PptInches(6.28), PptInches(2.08), PptInches(0.46))
+        l1p = l1.text_frame.paragraphs[0]; l1p.alignment = PP_ALIGN.CENTER
+        _add_run(l1p, "Live 3D Web App\nsteppeguard-ai.vercel.app", 9.0, CYAN, bold=True)
+
+    if qr_github_path.exists():
+        s7.shapes.add_picture(str(qr_github_path), PptInches(10.72), PptInches(4.56), width=PptInches(1.68))
+        l2 = s7.shapes.add_textbox(PptInches(10.52), PptInches(6.28), PptInches(2.08), PptInches(0.46))
+        l2p = l2.text_frame.paragraphs[0]; l2p.alignment = PP_ALIGN.CENTER
+        _add_run(l2p, "GitHub Repo & Video\nsazmak/steppeguard-ai", 9.0, AMBER, bold=True)
 
     # Programmatic slide bounds QA (verifies zero off-slide shapes)
     for s_idx, sl in enumerate(prs.slides, 1):
@@ -761,11 +823,12 @@ def build_presentation_pptx(bm: dict) -> None:
 
 
 if __name__ == "__main__":
+    generate_qr_codes()
     bm = json.loads((RESULTS / "benchmark_summary.json").read_text(encoding="utf-8"))
     build_technical_report_docx(bm)
     build_ai_declaration_docx()
     build_contribution_docx()
     build_presentation_pptx(bm)
-    print("GENERATED ALL DOCX & 7-SLIDE PPTX SUCCESSFULLY:")
+    print("GENERATED QR CODES + ALL DOCX & 7-SLIDE PPTX SUCCESSFULLY:")
     for p in sorted(DOCS.glob("*")):
         print(f"  {p.name} ({p.stat().st_size:,} bytes)")

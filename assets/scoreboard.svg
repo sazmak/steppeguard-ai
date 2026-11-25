@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 175" width="100%" role="img" aria-label="SteppeGuard AI Verified 30-Seed Benchmark Scoreboard">
+  <rect width="1200" height="175" rx="14" fill="#091122" stroke="#1E3A5F" stroke-width="1.5"/>
+  <text x="28" y="32" fill="#94A3B8" font-family="Segoe UI, sans-serif" font-size="11.5" font-weight="700" letter-spacing="1.2">VERIFIED 30-SEED EVALUATION SCOREBOARD  ·  19/19 PYTEST PASSING  ·  4 CLAUDE SONNET PEER AUDITS</text>
+
+  <g transform="translate(26, 48)">
+    <rect width="218" height="106" rx="10" fill="#111F38" stroke="#38BDF8" stroke-opacity="0.5"/>
+    <text x="16" y="26" fill="#94A3B8" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">ML WILDFIRE RECALL</text>
+    <text x="16" y="66" fill="#38BDF8" font-family="Consolas, monospace" font-size="34" font-weight="800">86.8%</text>
+    <text x="16" y="90" fill="#CBD5E1" font-family="Segoe UI, sans-serif" font-size="11">Up from 78.3% (Brier 0.085)</text>
+  </g>
+
+  <g transform="translate(258, 48)">
+    <rect width="218" height="106" rx="10" fill="#111F38" stroke="#22C55E" stroke-opacity="0.5"/>
+    <text x="16" y="26" fill="#94A3B8" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">A* RISK CUT VS BFS</text>
+    <text x="16" y="66" fill="#4ADE80" font-family="Consolas, monospace" font-size="34" font-weight="800">-98.3%</text>
+    <text x="16" y="90" fill="#CBD5E1" font-family="Segoe UI, sans-serif" font-size="11">Abai: 0.12 vs BFS 7.20</text>
+  </g>
+
+  <g transform="translate(490, 48)">
+    <rect width="218" height="106" rx="10" fill="#111F38" stroke="#38BDF8" stroke-opacity="0.5"/>
+    <text x="16" y="26" fill="#94A3B8" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">A* NODES SAVED VS UCS</text>
+    <text x="16" y="66" fill="#7DD3FC" font-family="Consolas, monospace" font-size="34" font-weight="800">-48.7%</text>
+    <text x="16" y="90" fill="#CBD5E1" font-family="Segoe UI, sans-serif" font-size="11">41.5 vs 80.8 (identical cost)</text>
+  </g>
+
+  <g transform="translate(722, 48)">
+    <rect width="218" height="106" rx="10" fill="#111F38" stroke="#F59E0B" stroke-opacity="0.5"/>
+    <text x="16" y="26" fill="#94A3B8" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">MDP CONVERGENCE</text>
+    <text x="16" y="66" fill="#FCD34D" font-family="Consolas, monospace" font-size="34" font-weight="800">17 swp</text>
+    <text x="16" y="90" fill="#CBD5E1" font-family="Segoe UI, sans-serif" font-size="11">θ = 10⁻⁶ · γ flip verified</text>
+  </g>
+
+  <g transform="translate(954, 48)">
+    <rect width="220" height="106" rx="10" fill="#111F38" stroke="#A78BFA" stroke-opacity="0.5"/>
+    <text x="16" y="26" fill="#94A3B8" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">AUTOMATED VERIFICATION</text>
+    <text x="16" y="66" fill="#DDD6FE" font-family="Consolas, monospace" font-size="34" font-weight="800">19 / 19</text>
+    <text x="16" y="90" fill="#CBD5E1" font-family="Segoe UI, sans-serif" font-size="11">Unit · Property · API tests</text>
+  </g>
+</svg>
