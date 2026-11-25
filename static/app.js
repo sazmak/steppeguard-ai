@@ -79,11 +79,13 @@ class Steppe3DScene {
     this.renderer.setSize(w, h, false);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
-    // Orbit camera state
-    this.orbit = { theta: 0.58, phi: 0.86, radius: 15.8, targetY: 0.4 };
+    // Orbit camera state (auto-fits portrait mobile screens cleanly)
+    const isPortrait = w < h * 0.95;
+    this.orbit = { theta: 0.58, phi: 0.86, radius: isPortrait ? 21.5 : 15.8, targetY: 0.4 };
     this.dragging = false;
     this.dragMoved = false;
     this.lastMouse = { x: 0, y: 0 };
+    this.pinchDist = null;
 
     // Lights
     const hemi = new THREE.HemisphereLight(0x93c5fd, 0x0f172a, 0.95);
@@ -231,9 +233,32 @@ class Steppe3DScene {
     });
     this.canvas.addEventListener("wheel", (e) => {
       e.preventDefault();
-      this.orbit.radius = Math.max(8.5, Math.min(26, this.orbit.radius + e.deltaY * 0.01));
+      this.orbit.radius = Math.max(8.5, Math.min(28, this.orbit.radius + e.deltaY * 0.01));
       this._updateCamera();
     }, { passive: false });
+
+    // Mobile 2-finger pinch-to-zoom support
+    this.canvas.addEventListener("touchstart", (e) => {
+      if (e.touches.length === 2) {
+        this.dragging = false;
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        this.pinchDist = Math.hypot(dx, dy);
+      }
+    }, { passive: true });
+    this.canvas.addEventListener("touchmove", (e) => {
+      if (e.touches.length === 2 && this.pinchDist !== null) {
+        e.preventDefault();
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const dist = Math.hypot(dx, dy);
+        const delta = this.pinchDist - dist;
+        this.pinchDist = dist;
+        this.orbit.radius = Math.max(9.0, Math.min(28, this.orbit.radius + delta * 0.04));
+        this._updateCamera();
+      }
+    }, { passive: false });
+    this.canvas.addEventListener("touchend", () => { this.pinchDist = null; });
     this.canvas.addEventListener("click", (e) => {
       if (this.dragMoved) return;
       const rect = this.canvas.getBoundingClientRect();
@@ -261,7 +286,8 @@ class Steppe3DScene {
   }
 
   resetCamera() {
-    this.orbit = { theta: 0.58, phi: 0.86, radius: 15.8, targetY: 0.4 };
+    const isPortrait = this.camera.aspect < 0.95;
+    this.orbit = { theta: 0.58, phi: 0.86, radius: isPortrait ? 21.5 : 15.8, targetY: 0.4 };
     this._updateCamera();
   }
 

@@ -374,10 +374,48 @@ tr.flip-row { background: rgba(245, 158, 11, 0.15); }
 .law-card { border-color: rgba(245, 158, 11, 0.35); }
 .law-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; font-size: 12.5px; color: #cbd5e1; }
 
-/* RESPONSIVE */
+/* RESPONSIVE & MOBILE OPTIMIZATION */
+.table-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
 @media (max-width: 1180px) {
-  .mission-grid { grid-template-columns: 1fr; height: auto; }
-  .viewport-container { min-height: 460px; }
+  .mission-grid { grid-template-columns: 1fr; height: auto; min-height: 0; }
+  .viewport-shell { order: -1; }
+  .rail-right { order: 0; }
+  .rail-left { order: 1; }
+  .panel { overflow-y: visible; padding-right: 0; }
+  .viewport-container { height: 52vh; min-height: 330px; max-height: 480px; }
   .math-grid, .sub-grid-2, .kpi-row, .law-grid { grid-template-columns: 1fr; }
   .span-2 { grid-column: span 1; }
+}
+
+@media (max-width: 768px) {
+  html, body { font-size: 13px; }
+  .topbar {
+    height: auto;
+    padding: 8px 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .brand-sub, .status-pills { display: none; }
+  .brand-title { font-size: 15px; }
+  .tabs { width: 100%; justify-content: space-between; }
+  .tab-btn { flex: 1; padding: 7px 6px; font-size: 11.5px; text-align: center; }
+
+  .mission-grid { padding: 8px; gap: 10px; }
+  .viewport-container { height: 48vh; min-height: 300px; max-height: 420px; }
+  .viewport-toolbar { padding: 6px 8px; gap: 6px; }
+  .toolbar-group { width: 100%; justify-content: space-between; }
+  .toolbar-toggles { width: 100%; justify-content: space-around; flex-wrap: wrap; }
+  .viewport-hud-topleft { top: 8px; left: 8px; right: 8px; padding: 5px 8px; }
+  .hud-title { font-size: 12px; }
+  .hud-sub { font-size: 10px; }
+  .viewport-legend { gap: 6px; font-size: 9.5px; padding: 4px 6px; bottom: 6px; left: 6px; right: 6px; }
+
+  .btn-primary, .btn-slate, .btn-amber, .btn-cyan, .btn-ghost, .btn-green-sm, .btn-outline-sm {
+    min-height: 36px;
+  }
+  .page-wrap { padding: 10px; }
+  .card { padding: 10px 11px; overflow-x: auto; }
+  .data-table { min-width: 520px; }
+  .kv-grid { grid-template-columns: 1fr; }
 }
