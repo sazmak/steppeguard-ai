@@ -135,11 +135,39 @@ def probe_duration(path: Path) -> float:
     return float(out)
 
 
-def build_combined_audio(segments: list[tuple[str, Path, float]], pause_sec: float = 0.35) -> tuple[Path, list[float]]:
-    """Concatenate all scene MP3s with automatic gentle tempo fit strictly inside 2:00-2:52."""
+def load_custom_segments(folder: Path) -> list[tuple[str, Path, float]]:
+    """Load 6 user-provided audio clips from folder (sorted chronologically by filename)."""
+    files = sorted(
+        [p for p in folder.iterdir() if p.is_file() and p.suffix.lower() in {".mp3", ".wav", ".m4a", ".ogg", ".aac"}],
+        key=lambda p: p.name.lower(),
+    )
+    if len(files) != 6:
+        raise ValueError(f"Expected 6 scene audio files in {folder}, found {len(files)}: {[f.name for f in files]}")
+    results = []
+    for idx, fpath in enumerate(files, 1):
+        # Trim only leading/trailing dead silence (keeps natural voice 100% untouched!)
+        trimmed = SCRATCH / f"custom_trim_{idx}.wav"
+        subprocess.run(
+            [
+                "ffmpeg", "-y", "-i", str(fpath),
+                "-af", "silenceremove=start_periods=1:start_threshold=-45dB:detection=peak,areverse,silenceremove=start_periods=1:start_threshold=-45dB:detection=peak,areverse",
+                "-ar", "44100", "-ac", "2", str(trimmed),
+            ],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        dur = probe_duration(trimmed)
+        print(f"  Custom Scene {idx} ({fpath.name}): {dur:.2f}s")
+        results.append((f"scene_{idx}", trimmed, dur))
+    return results
+
+
+def build_combined_audio(segments: list[tuple[str, Path, float]], pause_sec: float = 0.28) -> tuple[Path, list[float]]:
+    """Concatenate all 6 scene clips keeping pure 1.0x natural speed whenever <= 176s."""
     raw_total = sum(d for _, _, d in segments) + pause_sec * (len(segments) - 1)
-    # Keep natural 1.0x speed if <= 172s; otherwise gently adjust tempo to fit ~168s (2:48)
-    tempo = 1.0 if raw_total <= 172.0 else min(1.22, raw_total / 168.0)
+    # Prefer 1.00x untouched natural voice; only nudge very gently if > 176s (2:56)
+    tempo = 1.0 if raw_total <= 176.0 else min(1.08, raw_total / 174.0)
     print(f"Raw audio total={raw_total:.2f}s -> applying tempo={tempo:.3f}x")
 
     silence = SCRATCH / "silence.wav"
@@ -154,9 +182,9 @@ def build_combined_audio(segments: list[tuple[str, Path, float]], pause_sec: flo
     )
     wav_parts = []
     adj_durs: list[float] = []
-    for idx, (name, mp3_path, _) in enumerate(segments):
-        wav_path = SCRATCH / f"{name}.wav"
-        cmd = ["ffmpeg", "-y", "-i", str(mp3_path)]
+    for idx, (name, src_path, _) in enumerate(segments):
+        wav_path = SCRATCH / f"{name}_final.wav"
+        cmd = ["ffmpeg", "-y", "-i", str(src_path)]
         if abs(tempo - 1.0) > 0.005:
             cmd += ["-filter:a", f"atempo={tempo:.4f}"]
         cmd += ["-ar", "44100", "-ac", "2", str(wav_path)]
@@ -375,13 +403,19 @@ def mux_final_mp4(raw_video: Path, audio_wav: Path, out_mp4: Path) -> None:
 
 
 if __name__ == "__main__":
-    print("1/4 Generating ElevenLabs voiceover segments (cached if already present)...")
-    key = load_api_key()
-    segs = generate_tts_segments(key)
+    my_voice_dir = ROOT / "my_voice"
+    if "--from-dir" in sys.argv:
+        src_dir = Path(sys.argv[sys.argv.index("--from-dir") + 1])
+        print(f"1/4 Loading 6 custom voice clips from {src_dir}...")
+        segs = load_custom_segments(src_dir)
+    else:
+        print("1/4 Generating ElevenLabs voiceover segments (cached if already present)...")
+        key = load_api_key()
+        segs = generate_tts_segments(key)
     print("2/4 Concatenating synchronized narration...")
-    narration, adj_durs = build_combined_audio(segs, pause_sec=0.35)
+    narration, adj_durs = build_combined_audio(segs, pause_sec=0.28)
     print("3/4 Recording live 1280x720 3D WebGL session in Microsoft Edge...")
-    raw_webm = record_choreographed_video(adj_durs, pause_sec=0.35)
+    raw_webm = record_choreographed_video(adj_durs, pause_sec=0.28)
     print("4/4 Muxing final H.264/AAC MP4...")
     final_mp4 = DOCS / "SteppeGuard_Demo_Video.mp4"
     mux_final_mp4(raw_webm, narration, final_mp4)
